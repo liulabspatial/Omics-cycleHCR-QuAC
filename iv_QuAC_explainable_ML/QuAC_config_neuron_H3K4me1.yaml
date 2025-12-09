@@ -1,0 +1,70 @@
+data:
+    source: "/QUAC_images/H3K4me1/train"
+    reference: "/QUAC_images/H3K4me1/train"
+    img_size: 88
+    batch_size: 16
+    num_workers: 8
+    grayscale: true
+    rgb: false
+
+validation_data:
+    source: "/QUAC_images/H3K4me1/val"
+    reference: "/QUAC_images/H3K4me1/val"
+    img_size: 88
+    batch_size: 16
+    num_workers: 8
+    grayscale: true
+    rgb: false
+
+test_data:
+    source: "/QUAC_images/H3K4me1/val"
+    reference: "/QUAC_images/H3K4me1/val"
+    img_size: 88
+    batch_size: 16
+    num_workers: 8
+    grayscale: true
+    rgb: false
+
+
+model:
+    img_size: 88
+    style_dim: 64
+    latent_dim: 16
+    num_domains: 4
+    input_dim: 1
+    final_activation: "tanh"
+
+
+solver:
+    root_dir: "/QUAC_model/H3K4me1/ite40000"
+
+loss:
+    lambda_ds: 0.0
+    lambda_sty: 1.  # Default
+    lambda_cyc: 1.  # Default
+    lambda_id: 1.  # Default
+
+validation_config:
+    classifier_checkpoint: "/QUAC_model/H3K4me1_jit.pt"
+    val_batch_size: 16
+    num_outs_per_domain: 10 # Default
+    img_size: 88
+    scale: 0.5
+    shift: 0.5
+
+log_type: wandb
+
+log:
+    log_dir: "neuron_4_class_H3K4me1"
+    project: "wholebrain_ave_int0_clustering"
+    name: "H3K4me1_40000"
+    notes: "Stargan training on 8-bit middle plane"
+    tags:
+        - stargan
+        - training
+
+run:
+    log_every: 500
+    total_iters: 40000
+    save_every: 1000
+    eval_every: 1000
