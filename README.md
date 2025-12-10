@@ -1,15 +1,8 @@
 # Protein and RNA cycleHCR with explainable ML <br/><br/>
 
-Folders in this repository:<br/>
-* Whole brain section image analysis pipeline:<br/>
-i.   cycleHCR large image dataset processing pipeline and single-cell nuclear protein intensity and RNA expression measurements<br/>
-ii.  UMAP construction and cell clustering using nuclear protein or RNA expression data<br/>
-iii. Image classification of nuclear proteins from cell clusters generated based on nuclear protein intensities<br/>
-iv.  Explainable machine learning using QuAC to discover cell-type specific nuclear structures<br/>
-v.   Population-level quantitative validation on cell-type specific nuclear structural features identified using QuAC<br/>
+* Whole brain section image analysis pipeline: i–v <br/>
 
-* Cell culture image analysis pipeline:<br/>
-vi.  Single-cell nuclear protein intensity measurement and cell-type classification using nuclear protein intensities<br/>
+* Cell culture image analysis pipeline: vi <br/>
 <br/><br/>
 
 Links to additional repositories used in the pipeline:<br/>
