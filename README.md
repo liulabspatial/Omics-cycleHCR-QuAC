@@ -1,4 +1,4 @@
-# Protein and RNA cycleHCR with explainable ML on subcellular structures <br/><br/>
+# Protein and RNA cycleHCR with explainable ML <br/><br/>
 
 Folders in this repository:<br/>
 * Whole brain section image analysis pipeline:<br/>
