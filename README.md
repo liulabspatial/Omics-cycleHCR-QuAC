@@ -2,9 +2,9 @@
 
 Folders in this repository:<br/>
 * Whole brain section image analysis pipeline:<br/>
-i.   Large cycleHCR image dataset processing pipeline and single-cell nuclear protein intensity and RNA expression measurements<br/>
-ii.  UMAP construction and cell clustering using nuclear protein and RNA expression data<br/>
-iii. Classification of nuclear protein images from cell clusters generated based on nuclear protein intensities<br/>
+i.   cycleHCR large image dataset processing pipeline and single-cell nuclear protein intensity and RNA expression measurements<br/>
+ii.  UMAP construction and cell clustering using nuclear protein or RNA expression data<br/>
+iii. Image classification of nuclear proteins from cell clusters generated based on nuclear protein intensities<br/>
 iv.  Explainable machine learning using QuAC to discover cell-type specific nuclear structures<br/>
 v.   Population-level quantitative validation on cell-type specific nuclear structural features identified using QuAC<br/>
 
