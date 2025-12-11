@@ -1,6 +1,6 @@
 # Protein and RNA cycleHCR with explainable ML <br/><br/>
 
-Whole brain section image analysis pipeline: i–v <br/>
+Tissue slice image analysis pipeline: i–v <br/>
 
 Cell culture image analysis pipeline: vi <br/>
 <br/><br/>
