@@ -1,6 +1,6 @@
 # Protein and RNA cycleHCR with explainable ML <br/><br/>
 
-<img width="740" height="605" alt="Image" src="https://github.com/user-attachments/assets/16e00832-5ce2-4c20-af81-5b03b42304e6" />
+<img width="740" height="605" alt="Image" src="https://github.com/user-attachments/assets/5d917a53-3f62-4478-be57-d008b2f1e325" />
 <br/><br/>
 Pipelines for Step 2–5<br/><br/>
 Tissue slice image analysis pipeline: Folder i–v <br/>
