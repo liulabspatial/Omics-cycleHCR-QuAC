@@ -1,7 +1,7 @@
 # Protein and RNA cycleHCR with explainable ML <br/><br/>
 
-<img width="2222" height="1815" alt="Image" src="https://github.com/user-attachments/assets/16e00832-5ce2-4c20-af81-5b03b42304e6" />
-<br/>
+<img width="1111" height="908" alt="Image" src="https://github.com/user-attachments/assets/16e00832-5ce2-4c20-af81-5b03b42304e6" />
+<br/><br/><br/>
 Tissue slice image analysis pipeline: i–v <br/>
 
 Cell culture image analysis pipeline: vi <br/>
