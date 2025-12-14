@@ -130,7 +130,7 @@ do_bigstream() {
             -o "$out" \
             --aff_as 2 \
             --aff_sf 2,1 \
-            --aff_ss 2,0 \
+            --aff_ss 2,0.25 \
             --aff_n 500 \
             --def_as 2 \
             --def_sf 2 \
