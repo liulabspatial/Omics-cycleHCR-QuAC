@@ -10,4 +10,5 @@ Dockers are provided for  <br/>
 Step 4 nuclei segmentation using distributed Cellpose, <br/>
 Step 6 3D single-nucleus image extraction, <br/>
 Step 7 single-nucleus protein intensity quantification, <br/>
-and Step 12 generation of ML training and validation image datasets (need a pre-assigned cell ID list from Step 11) <br/> 
+
+and Step 12 generation of ML training and validation image datasets (need a pre-assigned cell ID list from Step 11). <br/> 
