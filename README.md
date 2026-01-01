@@ -9,5 +9,6 @@ Cell culture image analysis pipeline: Folder vi <br/>
 <br/><br/>
 
 Links to additional repositories used in the pipeline:<br/>
-Quantitative Attributions with Counterfactuals: [https://github.com/funkelab/quac/tree/main](https://github.com/funkelab/quac/tree/main)<br/>
-cycleHCR image analysis pipeline: [https://github.com/liulabspatial/CycleHCR-Pipeline](https://github.com/liulabspatial/CycleHCR-Pipeline)
+i, Step 1–5: cycleHCR image analysis pipeline: [https://github.com/liulabspatial/CycleHCR-Pipeline](https://github.com/liulabspatial/CycleHCR-Pipeline)<br/>
+iv: Quantitative Attributions with Counterfactuals: [https://github.com/funkelab/quac/tree/main](https://github.com/funkelab/quac/tree/main)
+
