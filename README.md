@@ -2,7 +2,7 @@
 
 <img width="740" height="605" alt="Image" src="https://github.com/user-attachments/assets/5d917a53-3f62-4478-be57-d008b2f1e325" />
 <br/><br/>
-Pipelines for multi-omics cycleHCR image processing, analysis and cell-type specific architecture discovery. <br/><br/>
+Computational pipeline for multi-omics cycleHCR image processing, analysis and cell-type specific architecture discovery <br/><br/>
 Tissue slice image analysis pipeline: Folder i–v <br/>
 
 Cell culture image analysis pipeline: Folder vi <br/>
