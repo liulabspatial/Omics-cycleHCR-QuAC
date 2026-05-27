@@ -1,6 +1,9 @@
-spots_registered="/home/liulab/labdata/wholebrain_output/Step3/spots_filtered/"
-segmentation_tif="/home/liulab/labdata/wholebrain_output/Step5/dilated_s3.tiff"
-step5dir="/home/liulab/labdata/wholebrain_output/Step5/"
+# === Configure these paths for your environment (or set as environment variables) ===
+spots_registered="${SPOTS_REGISTERED:-/path/to/wholebrain_output/Step3/spots_filtered/}"   # <- change to your path
+segmentation_tif="${SEGMENTATION_TIF:-/path/to/wholebrain_output/Step5/dilated_s3.tiff}"   # <- change to your path
+step5dir="${STEP5_DIR:-/path/to/wholebrain_output/Step5/}"   # <- change to your path
+# Spot-assignment pipeline executable (from the CycleHCR-Pipeline repo)
+assignment="${ASSIGNMENT_SCRIPT:-/path/to/Docker_with_bigstream_py/assignment.sh}"   # <- change to your path
 
 files=($spots_registered/*spot*.csv)
 
@@ -19,8 +22,8 @@ fi
 # -p percent of spots assigned
 
 mkdir -p "$step5dir"
-/home/liulab/labdata/Takashi/Docker_with_bigstream_py/assignment.sh \
-    -s "/home/liulab/labdata/wholebrain_output/Step5/dilated_s3.tiff" \
+"$assignment" \
+    -s "$segmentation_tif" \
     -v 0.25,0.25,0.908 \
     -o "$step5dir/cell_by_transcript_matrix.csv" \
     -p "$step5dir/percent_spots_assigned.csv" \

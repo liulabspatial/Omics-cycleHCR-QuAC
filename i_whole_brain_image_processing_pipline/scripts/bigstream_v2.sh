@@ -100,6 +100,9 @@ for b in "${batch_arr[@]}"; do
 done
 declare -p mov_arr
 
+# === Singularity container config (or set as environment variable) ===
+SIF="${BIGSTREAM_SIF:-/path/to/bigstream-py-0.0.12.sif}"   # <- change to your path
+
 # make a function that runs singularity, and takes three inputs: fix, mov, output
 do_bigstream() {
     fix=$1
@@ -119,7 +122,7 @@ do_bigstream() {
             -B "$out":"$out" \
             -B "$fix_mask":"$fix_mask" \
             -B "$mov_mask":"$mov_mask" \
-	    /home/liulab/labdata/Takashi/Docker_with_bigstream_py/bigstream-py-0.0.12.sif \
+	    "$SIF" \
             /entrypoint.sh bigstream_in_memory \
             -f "$fix" \
             -m "$mov" \
@@ -130,7 +133,7 @@ do_bigstream() {
             -o "$out" \
             --aff_as 2 \
             --aff_sf 2,1 \
-            --aff_ss 2,0.25 \
+            --aff_ss 2,0 \
             --aff_n 500 \
             --def_as 2 \
             --def_sf 2 \
@@ -148,7 +151,7 @@ singularity run \
         --env TINI_SUBREAPER=true \
         -B "$fix":"$fix" \
         -B "$step2outdir":"$step2outdir" \
-	/home/liulab/labdata/Takashi/Docker_with_bigstream_py/bigstream-py-0.0.12.sif \
+	"$SIF" \
         /entrypoint.sh fix_n5tiff \
         -f "$fix" \
         -o "$step2outdir" \

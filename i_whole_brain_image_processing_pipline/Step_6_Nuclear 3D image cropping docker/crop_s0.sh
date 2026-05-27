@@ -95,6 +95,10 @@ cd $SCRIPTPATH
 
 fix=${step1dir}/${fix_subpath}
 
+# === Singularity container config (or set as environment variables) ===
+CONTAINER_SCRIPTS="${CONTAINER_SCRIPTS:-/path/to/Bigstream_container/scripts}"   # <- change to your path
+SIF="${BIGSTREAM_SIF:-/path/to/bigstream_open.sif}"   # <- change to your path
+
 # loop through batch, loop through time, save as n5_arr
 declare -a batch_arr=($(ls $step1dir))
 declare -a mov_arr=()
@@ -117,11 +121,11 @@ do_cropping_fix() {
     out=$4
 
     singularity run \
-        -B /home/liulab/labdata/Yumin/Bigstream_container/scripts:/scripts \
+        -B "$CONTAINER_SCRIPTS":/scripts \
         -B "$fix":"$fix" \
         -B "$seg":"$seg" \
         -B "$out":"$out" \
-        /home/liulab/labdata/Yumin/Bigstream_container/bigstream_open.sif \
+        "$SIF" \
         fix_segment_s0 \
         -f "$fix" \
         -seg "$seg" \
@@ -132,7 +136,7 @@ do_cropping_fix() {
 export -f do_cropping_fix
 
 
-export fix seg idx step2dir outdir
+export fix seg idx step2dir outdir CONTAINER_SCRIPTS SIF
 
 
 parallel --jobs 8 --verbose '
@@ -140,13 +144,13 @@ parallel --jobs 8 --verbose '
         --bind /sys/fs/cgroup \
         --writable-tmpfs \
         --env TINI_SUBREAPER=true \
-        -B /home/liulab/labdata/Yumin/Bigstream_container/scripts:/scripts \
+        -B '"$CONTAINER_SCRIPTS"':/scripts \
         -B '"$fix"':'"$fix"' \
         -B {1}:{1} \
         -B '"$step2dir/transform"':'"$step2dir/transform"' \
         -B '"$seg"':'"$seg"' \
         -B '"$outdir"':'"$outdir"' \
-        /home/liulab/labdata/Yumin/Bigstream_container/bigstream_open.sif \
+        '"$SIF"' \
         bigstream_segment_s0_parallel \
         -f '"$fix"' \
         -m {1} \

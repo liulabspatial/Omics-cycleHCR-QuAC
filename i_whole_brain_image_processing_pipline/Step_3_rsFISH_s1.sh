@@ -7,10 +7,13 @@
 
 # loop through batch, loop through time, save as n5_arr
 
-step1dir=/home/liulab/labdata/wholebrain_output/Step1/
-step2dir=/home/liulab/labdata/wholebrain_output/Step2/
-step3dir=/home/liulab/labdata/wholebrain_output/Step3/
+# === Configure these paths for your environment (or set as environment variables) ===
+step1dir="${STEP1_DIR:-/path/to/wholebrain_output/Step1/}"   # <- change to your path
+step2dir="${STEP2_DIR:-/path/to/wholebrain_output/Step2/}"   # <- change to your path
+step3dir="${STEP3_DIR:-/path/to/wholebrain_output/Step3/}"   # <- change to your path
 dapi=c3
+# RSFISH warp-spots pipeline executable (from the CycleHCR-Pipeline repo)
+rswarp="${RSWARP_SCRIPT:-/path/to/RSFISH-WarpSpots/rs_warp_Yumin.sh}"   # <- change to your path
 rsparam="--rsfish_gb_per_core 8 --rsfish_min 0 --rsfish_max 600 --rsfish_anisotropy 1.0 --rsfish_sigma 1.18 --rsfish_ransac 0 --rsfish_threshold 0.00353 --rsfish_background 0 --rsfish_intensity 0"
 
 
@@ -52,7 +55,7 @@ do_warp_spots() {
 		fi
 	done
 
-	/home/liulab/labdata/nf/RSFISH-WarpSpots/rs_warp_Yumin.sh \
+	"$rswarp" \
 		-i "$n5" \
 		-o "$warpdir" \
 		-r "$spotsdir" \

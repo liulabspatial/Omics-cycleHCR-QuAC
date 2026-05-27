@@ -19,7 +19,7 @@ def main():
     conversion_dict = dict(zip(x, targets))
 
     # where cropped nuclear images are stored with subfolders
-    base_dir = "/home/liulab/labdata/wholebrain_output/Step6_crop"
+    base_dir = "/path/to/Step6_crop"   # <- change to your path
 
     # nuclear intensity was stored in h5ad files for each subfolder
     for folder_id in range(0, 26):
