@@ -1,5 +1,5 @@
 # Protein and RNA cycleHCR with explainable ML <br/><br/>
-img src="https://github.com/user-attachments/assets/ac239d2b-33c9-4d2e-9f95-a1e53a92ff3e"
+<img width="1111" height="907" alt="Image" src="https://github.com/user-attachments/assets/ac239d2b-33c9-4d2e-9f95-a1e53a92ff3e" />
 
 Folders in this repository:<br/>
 * Whole brain section image analysis pipeline:<br/>
