@@ -1,6 +1,7 @@
 # Protein and RNA cycleHCR with explainable ML <br/><br/>
 <img width="1111" height="907" alt="Image" src="https://github.com/user-attachments/assets/ac239d2b-33c9-4d2e-9f95-a1e53a92ff3e" />
 
+
 Folders in this repository:<br/>
 * Whole brain section image analysis pipeline:<br/>
 i.   cycleHCR large image dataset processing pipeline and single-cell nuclear protein intensity and RNA expression measurements<br/>
@@ -66,3 +67,22 @@ Explainable-ML analysis with QuAC. Requires Linux x86_64 with CUDA 11.8.
 The upstream pyproject.toml pins torch==2.4.0 and other dependencies.
 A CUDA 11.8-capable GPU is required for training and counterfactual
 generation.
+
+
+## Data availability
+
+All intermediate datasets required to reproduce the analyses are deposited on
+Zenodo: https://zenodo.org/records/20429490
+
+Each downstream folder (`ii_whole_brain_cell_clustering/`,
+`vii_Clustering_robustness_tests/`, etc.) has its own short `README.md`
+describing which file to download and where to place it. Sections `iii`, `iv`,
+and `v` share the same QuAC raw image dataset from this Zenodo record.
+
+
+## Reproducing the analyses
+
+For a step-by-step walkthrough mapping each analysis stage to the notebooks
+and scripts that produce it — including inputs, outputs, and expected
+hardware/runtime — see [`REPRODUCING.md`](REPRODUCING.md) at the repository
+root.
