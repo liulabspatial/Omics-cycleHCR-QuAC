@@ -5,8 +5,13 @@
 
 
 
-inputpath="/home/liulab/labdata/Yumin/Neuron/time1_z_rescaled_DAPI_imgs/"
-outputpath="/home/liulab/labdata/Yumin/Neuron/CP_masks4/"
+# === Configure these paths for your environment (or set as environment variables) ===
+inputpath="${INPUT_PATH:-/path/to/time1_z_rescaled_DAPI_imgs/}"   # <- change to your path
+outputpath="${OUTPUT_PATH:-/path/to/CP_masks4/}"   # <- change to your path
+# Cellpose pipeline executable and models (from the CycleHCR-Pipeline repo)
+cellpose="${CELLPOSE_SCRIPT:-/path/to/scripts/cellpose.sh}"   # <- change to your path
+model_xy="${MODEL_XY:-/path/to/models/CP_neuron_xy5}"   # <- change to your path
+model_yz="${MODEL_YZ:-/path/to/models/CP_neuron_yz5}"   # <- change to your path
 
 # Specify the directory to check
 dir=$outputpath
@@ -35,10 +40,10 @@ do
       	((i++))  # Increment the counter
         echo "Processing $file"
         echo "Output will be in $outputdir"
-        /home/liulab/labdata/scripts/cellpose.sh \
+        "$cellpose" \
               -i $file \
               -o $outputdir \
               -m 20000 -d 70\
-              --model_xy /home/liulab/labdata/Yumin/Neuron/models/CP_neuron_xy5 \
-              --model_yz /home/liulab/labdata/Yumin/Neuron/models/CP_neuron_yz5
+              --model_xy "$model_xy" \
+              --model_yz "$model_yz"
 done

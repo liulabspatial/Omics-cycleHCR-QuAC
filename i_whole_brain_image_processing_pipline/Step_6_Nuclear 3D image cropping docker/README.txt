@@ -14,7 +14,7 @@ conda activate myenv
 cd scripts/
 
 # run image cropping script by
-python bigstream_segment_s0_local.py
+python bigstream_segment_s0_parallel.py
 
 
 

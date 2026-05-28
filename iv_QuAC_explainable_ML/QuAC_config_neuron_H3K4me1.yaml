@@ -1,6 +1,8 @@
+# Paths below are relative to the directory where QuAC is launched.
+# Edit them to point to your dataset/model locations (absolute paths also work).
 data:
-    source: "/QUAC_images/H3K4me1/train"
-    reference: "/QUAC_images/H3K4me1/train"
+    source: "QUAC_images/H3K4me1/train"   # <- change to your path
+    reference: "QUAC_images/H3K4me1/train"   # <- change to your path
     img_size: 88
     batch_size: 16
     num_workers: 8
@@ -8,8 +10,8 @@ data:
     rgb: false
 
 validation_data:
-    source: "/QUAC_images/H3K4me1/val"
-    reference: "/QUAC_images/H3K4me1/val"
+    source: "QUAC_images/H3K4me1/val"   # <- change to your path
+    reference: "QUAC_images/H3K4me1/val"   # <- change to your path
     img_size: 88
     batch_size: 16
     num_workers: 8
@@ -17,8 +19,8 @@ validation_data:
     rgb: false
 
 test_data:
-    source: "/QUAC_images/H3K4me1/val"
-    reference: "/QUAC_images/H3K4me1/val"
+    source: "QUAC_images/H3K4me1/test"   # <- change to your path
+    reference: "QUAC_images/H3K4me1/test"   # <- change to your path
     img_size: 88
     batch_size: 16
     num_workers: 8
@@ -36,7 +38,7 @@ model:
 
 
 solver:
-    root_dir: "/QUAC_model/H3K4me1/ite40000"
+    root_dir: "QUAC_model/H3K4me1/ite40000"   # <- change to your path
 
 loss:
     lambda_ds: 0.0
@@ -45,7 +47,7 @@ loss:
     lambda_id: 1.  # Default
 
 validation_config:
-    classifier_checkpoint: "/QUAC_model/H3K4me1_jit.pt"
+    classifier_checkpoint: "QUAC_model/H3K4me1_jit.pt"   # <- change to your path
     val_batch_size: 16
     num_outs_per_domain: 10 # Default
     img_size: 88

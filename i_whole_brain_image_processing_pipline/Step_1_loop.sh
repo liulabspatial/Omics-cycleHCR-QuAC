@@ -1,5 +1,8 @@
-inputpath="/home/liulab/labdata/wholebrain/"
-outputpath="/home/liulab/labdata/wholebrain_output/Step1/"
+# === Configure these paths for your environment (or set as environment variables) ===
+inputpath="${INPUT_PATH:-/path/to/wholebrain/}"   # <- change to your path
+outputpath="${OUTPUT_PATH:-/path/to/wholebrain_output/Step1/}"   # <- change to your path
+# ND2-stitching pipeline executable (from the CycleHCR-Pipeline repo)
+nd2n5="${ND2N5_SCRIPT:-/path/to/ND2-Stitching-Pipeline/nd2n5.sh}"   # <- change to your path
 
 
 # Check if the directory exists
@@ -53,7 +56,7 @@ for b in "${batches[@]}"; do
             echo "checkpoint: $file_cp ::: exists"
         else
             echo "Processing $file ::: Output will be in $outputdir"
-            /home/liulab/labdata/nf/ND2-Stitching-Pipeline/nd2n5.sh \
+            "$nd2n5" \
                     -i $file \
                     -o $outputdir \
                     -t 120 -c 200 -c2 200 -d 3 \
