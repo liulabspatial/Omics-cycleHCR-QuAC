@@ -1,1 +1,1 @@
-Quantitative validation of discovered patterns using QuAC in the nuclear image datasets.
+Quantitative validation of discovered patterns in the nuclear image datasets.
