@@ -1,5 +1,5 @@
 # Example invocation of crop_s0.sh -- replace the example paths below with your own.
-/tmp/crop_s0.sh  \
+./crop_s0.sh  \
     -o '/path/to/Step6_crop/24' \
     --step1 '/path/to/Step1_protein' \
     --step2 '/path/to/Step2_protein' \
