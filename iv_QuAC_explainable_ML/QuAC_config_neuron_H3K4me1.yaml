@@ -32,7 +32,7 @@ model:
     img_size: 88
     style_dim: 64
     latent_dim: 16
-    num_domains: 4
+    num_domains: 8
     input_dim: 1
     final_activation: "tanh"
 
@@ -57,7 +57,7 @@ validation_config:
 log_type: wandb
 
 log:
-    log_dir: "neuron_4_class_H3K4me1"
+    log_dir: "neuron_H3K4me1"
     project: "wholebrain_ave_int0_clustering"
     name: "H3K4me1_40000"
     notes: "Stargan training on 8-bit middle plane"
