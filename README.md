@@ -72,7 +72,7 @@ generation.
 ## Data availability
 
 All intermediate datasets required to reproduce the analyses are deposited on
-Zenodo: https://zenodo.org/records/20429490
+Zenodo:  10.5281/zenodo.18633455
 
 Each downstream folder (`ii_whole_brain_cell_clustering/`,
 `vii_Clustering_robustness_tests/`, etc.) has its own short `README.md`
