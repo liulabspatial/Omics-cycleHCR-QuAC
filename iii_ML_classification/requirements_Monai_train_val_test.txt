@@ -2,11 +2,6 @@
 monai==1.4.0
 torch==2.5.1
 torchvision==0.20.1
-numpy==1.26.4
-pandas==2.0.3
-scikit-image==0.20.0
-scipy==1.14.1
 Pillow==10.4.0
 scikit-learn
-seaborn
 matplotlib

@@ -3,7 +3,7 @@
 **Evaluation / inference only.** This notebook runs the released MONAI
 **DenseNet169** cell-type classifier on the held-out **test** split of a
 train / val / test (70 / 10 / 20) partition and reproduces the reported numbers
-and figure for one nuclear-marker channel (default **H3K4me1**). It does **not**
+for one nuclear-marker channel (default **H3K4me1**). It does **not**
 train — the training image data is not distributed, so the training loop,
 optimizer/loss, ImageNet-pretrained init, and model-save steps have been removed.
 
@@ -22,9 +22,8 @@ notebook by exporting the matching environment variable before launch:
 | `QUAC_CHANNEL`        | `H3K4me1`                            | Channel to evaluate                        |
 | `QUAC_DATA_ROOT`      | `./QUAC_8_classes`                   | Root of the per-channel image datasets     |
 | `QUAC_MODEL_ROOT`     | `./QUAC_model/eight_classes_model`   | Released DenseNet169 weights               |
-| `QUAC_OUTPUT_ROOT`    | `./QUAC_8_classes`                   | Where the report / CSVs / figures are written |
+| `QUAC_OUTPUT_ROOT`    | `./QUAC_8_classes`                   | Where the classification report is written |
 | `QUAC_MAX_EPOCHS`     | `50`                                 | Epoch count baked into the weight filename |
-| `QUAC_FONT_DIR`       | `C:/Windows/Fonts`                   | Arial Narrow location (Windows only; optional) |
 
 ```bash
 QUAC_DATA_ROOT=/path/to/dataset \
@@ -54,11 +53,16 @@ Run every cell top to bottom. The notebook loads `model_path(CHANNEL)`, runs
 inference over the held-out `test/` split, prints the classification report, and
 writes the outputs below.
 
-## Outputs (written to `QUAC_OUTPUT_ROOT`)
+## Outputs
 
-- `<CHANNEL>_train_val_test_report.txt` — per-class precision/recall/F1 on the test split
-
-The figure/CSV panel is regenerated from the same `y_true` / `y_pred`.
+- `<QUAC_OUTPUT_ROOT>/<CHANNEL>_train_val_test_report.txt` — per-class
+  precision/recall/F1 on the held-out test split (saved to disk).
+- Sample test-crop panel and confusion matrix — displayed inline in the notebook
+  (not written to disk).
+- Optional **model export** cell writes the loaded model as
+  `<MODEL_ROOT>/<CHANNEL>_<MAX_EPOCHS>epochs_model.pth` (state-dict) and
+  `..._jit.pt` (TorchScript). Note this overwrites the source `.pth` with the same
+  weights; its useful product is the self-contained TorchScript `.pt`.
 
 ## Required intermediate files to deposit in the repo
 
@@ -67,12 +71,12 @@ So others can reproduce without the raw microscopy or a GPU retrain, deposit:
 **Commit directly (small — belong in git):**
 - `QUAC_8_classes/test_cell_ids.txt`, `QUAC_8_classes/val_cell_ids.txt`
   — the exact held-out val/test split used for the reported numbers.
-- `<CHANNEL>_train_val_test_report.txt` and any confusion / per-class-F1 CSVs the
-  notebook writes.
+- `<CHANNEL>_train_val_test_report.txt` — the saved classification report.
 
 **Large — use Git LFS or an external archive (Zenodo / figshare), and link it here:**
 - Released weights `QUAC_model/eight_classes_model/*.pth` (~49 MB each) — under
-  GitHub's 100 MB per-file limit, so Git LFS works.
+  GitHub's 100 MB per-file limit, so Git LFS works. The TorchScript `*_jit.pt`
+  copies are optional.
 - The test image crops `QUAC_8_classes/<CHANNEL>/test/` — deposit as an external
   archive and put the download URL/DOI here.
 
@@ -81,6 +85,6 @@ So others can reproduce without the raw microscopy or a GPU retrain, deposit:
 ## Environment
 
 See `requirements_Monai_train_val_test.txt`. Versions used for the reported runs:
-MONAI 1.4.0, PyTorch 2.5.1, TorchVision 0.20.1, NumPy 1.26.4, pandas 2.0.3,
-scikit-learn, seaborn, matplotlib. A CUDA GPU is used automatically if available,
-otherwise the notebook falls back to CPU.
+MONAI 1.4.0, PyTorch 2.5.1, TorchVision 0.20.1, Pillow 10.4.0, scikit-learn,
+matplotlib. A CUDA GPU is used automatically if available, otherwise the notebook
+falls back to CPU.
