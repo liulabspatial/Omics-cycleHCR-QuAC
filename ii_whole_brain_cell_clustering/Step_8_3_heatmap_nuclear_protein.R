@@ -1,7 +1,7 @@
 library(pheatmap)
 library(RColorBrewer)
 
-expr <- read.csv("output/R_nuclear_protein_zscore.csv", row.names=1, check.names=FALSE)
+expr <- read.csv("input/R_nuclear_protein_zscore.csv", row.names=1, check.names=FALSE)
 
 # Load cluster marker labels
 cluster_markers <- read.csv("input/R_nuclear_protein_labels.csv", row.names=1, check.names=FALSE)
