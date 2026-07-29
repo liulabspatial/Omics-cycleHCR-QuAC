@@ -48,7 +48,7 @@ nuclear segmentation / measurement steps run in the Dockerfiles under folder i
 ### 2. Distributed nuclear segmentation — Cellpose (Docker, folder i)
 
 Whole-brain nuclear segmentation is run with a distributed Cellpose container
-(`i_whole_brain_image_processing_pipline/Step_4_1_Cellpose_distributed_docker/`).
+(`i_whole_brain_image_processing_pipeline/Step_4_1_Cellpose_distributed_docker/`).
 The image builds from `condaforge/miniforge3` and pins:
 
 - Python 3.10
@@ -57,15 +57,17 @@ The image builds from `condaforge/miniforge3` and pins:
 - zarr 2.18.3, dask-image 2026.5.0
 - dask 2026.6.0, dask-jobqueue 0.9.0
 
-Build and run:
+Build and run (see the folder's `README.md` for full details):
 
-    cd i_whole_brain_image_processing_pipline/Step_4_1_Cellpose_distributed_docker
+    cd i_whole_brain_image_processing_pipeline/Step_4_1_Cellpose_distributed_docker
     docker build -t cellpose-distributed .
-    docker run --gpus all -v /path/to/data:/data \
-        cellpose-distributed python Cellpose_distributed.py
+    docker run --gpus all -v ${PWD}/data:/data -w /data cellpose-distributed
 
-`dask-jobqueue` distributes segmentation across cluster nodes; a CUDA 12.6-capable
-GPU is used for inference.
+The container activates the pinned `cellpose` environment and runs
+`Cellpose_distributed.py`, reading its input from the mounted `data/` folder and
+writing the label outputs (`output.zarr`, `segment_output.tiff`) back there.
+A CUDA 12.6-capable GPU is used for inference; `dask-jobqueue` can distribute
+segmentation across cluster nodes.
 
 ### 3. Analysis environment — Python (this repository, folders i–iii, v–vi)
 
@@ -111,7 +113,7 @@ generation.
 ## Data availability
 
 All intermediate datasets required to reproduce the analyses are deposited on
-Zenodo: https://zenodo.org/records/20429490
+Zenodo (DOI 10.5281/zenodo.18633455): https://doi.org/10.5281/zenodo.18633455
 
 Each downstream folder (`ii_whole_brain_cell_clustering/`,
 `vii_Clustering_robustness_tests/`, etc.) has its own short `README.md`
