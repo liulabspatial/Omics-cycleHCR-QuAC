@@ -45,7 +45,7 @@ process modules and are pulled automatically on first run. Container
 definitions are based on JaneliaSciComp/containers.<br/>
 nuclear segmentation / measurement steps run in the Dockerfiles under folder i
 
-### 2. Analysis environment — Python (this repository, folders i–iii, v–vi)
+### 2. Analysis environment — Python (this repository, folders i–iii, v–vii)
 
 Cell clustering, ML classification, and feature quantification.
 
