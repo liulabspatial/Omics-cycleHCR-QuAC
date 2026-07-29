@@ -10,6 +10,7 @@ RUN pip install --no-cache-dir \
     scipy \
     scikit-image
 
-COPY Pearson_correlation.py .
+COPY Step_12_write_ML_image_dataset.py .
+COPY Step_7_measure_nucleus_intensity.py .
 
 # docker build -t cell_measurement .
