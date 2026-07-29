@@ -13,7 +13,7 @@ which outputs**.
 
 All input datasets are hosted on Zenodo:
 
-> **Zenodo record:** https://zenodo.org/records/20429490
+> **Zenodo record:** 10.5281/zenodo.18633455
 
 Each downstream folder has its own short `README.md` describing exactly which
 file to download from Zenodo and where to put it. In every case the procedure
@@ -96,7 +96,7 @@ section `i` from the raw cycleHCR volumes) is shared across sections `iii`,
 Each block lists: **Goal · Environment · Inputs · Notebooks (in order) · Outputs · Hardware / runtime.** "Environment" names refer to the three blocks in `README.md § Computational environments`.
 
 ### i. Whole-brain image processing
-*Folder: `i_whole_brain_image_processing_pipline/`*
+*Folder: `i_whole_brain_image_processing_pipeline/`*
 
 - **Goal.** Stitch, register, segment and quantify the whole-brain cycleHCR volume; produce per-cell nuclear-protein intensity tables and the per-cell 3D nuclear image dataset that feeds sections `iii`, `iv`, and `v`.
 - **Environment.** Stages run as Nextflow processes under SingularityCE (`README.md` env #1) plus three local Docker containers built from the Dockerfiles in this folder.
@@ -109,7 +109,7 @@ Each block lists: **Goal · Environment · Inputs · Notebooks (in order) · Out
   5. `Step_4_2_center_of_mass_whole_image.ipynb` — per-label centroid extraction from the segmentation mask.
   6. `Step_4_3_dilate_mask_for_RNA_spot_assignment.ipynb` — mask dilation for spot-to-cell assignment.
   7. `Step_5_spot_assignment.sh` — assign RNA spots to nuclei using the dilated mask.
-  8. `Step_6_Nuclear 3D image cropping docker/` — per-cell 3D crops. Run inside the Docker built from this folder's `Dockerfile`; driver shell scripts `crop_open.sh`, `crop_s0.sh`, calling `scripts/bigstream_segment_s0_parallel.py` and `scripts/fix_segment_s0.py`.
+  8. `Step_6_Nuclear_3D_image_cropping_docker/` — per-cell 3D crops. Run inside the Docker built from this folder's `Dockerfile`; driver shell scripts `crop_open.sh`, `crop_s0.sh`, calling `scripts/bigstream_segment_s0_parallel.py` and `scripts/fix_segment_s0.py`.
   9. `Step_7_and_12_nuclei_measure_and_write_ML_images/Step_7_measure_nucleus_intensity.py` — per-cell nuclear-protein intensity measurements (Docker provided).
   10. `Step_7_and_12_nuclei_measure_and_write_ML_images/Step_12_write_ML_image_dataset.py` — packages per-cell crops into the **QuAC raw image dataset** that becomes the Zenodo deposit consumed by `iii`, `iv`, `v`.
 - **Outputs that downstream sections consume (via Zenodo, not direct file passing):**
@@ -122,7 +122,7 @@ Each block lists: **Goal · Environment · Inputs · Notebooks (in order) · Out
 
 - **Goal.** Build the integrated nuclear-protein and RNA UMAPs across the two brain sections; define the 26/27/33 cluster solutions used throughout the paper. Generates the `adata_*_leiden.h5ad` snapshots consumed by section `iii`.
 - **Environment.** Analysis env (`omics-cyclehcr`, `README.md` env #2). Steps 8_3 and 9_3 are R scripts.
-- **Inputs.** Download `input.zip` from Zenodo (record [20429490](https://zenodo.org/records/20429490)) and unzip into `ii_whole_brain_cell_clustering/input/`. The folder contains:
+- **Inputs.** Download `input.zip` from Zenodo ([10.5281/zenodo.18633455](https://doi.org/10.5281/zenodo.18633455)) and unzip into `ii_whole_brain_cell_clustering/input/`. The folder contains:
   | File | Used by |
   |---|---|
   | `adata_18_nuclear_46_prot_brain1.h5ad`, `brain2_nuclear_int_18prot.h5ad` | 8_2, 8_4, 10 |
@@ -150,7 +150,7 @@ Each block lists: **Goal · Environment · Inputs · Notebooks (in order) · Out
 - **Goal.** (12) Classify per-cell cropped nuclear images by Monai/PyTorch into the protein-UMAP cluster labels; (13) measure how classification performance scales with the number of protein channels and rank channels by SHAP importance.
 - **Environment.** Analysis env (`README.md` env #2). GPU strongly recommended for `Step_12`.
 - **Inputs.**
-  - QuAC raw image dataset from Zenodo (record [20429490](https://zenodo.org/records/20429490)) — per-cell 3D nuclear crops shared with `iv` and `v`. Unzip into `iii_ML_classification/input/`.
+  - QuAC raw image dataset from Zenodo ([10.5281/zenodo.18633455](https://doi.org/10.5281/zenodo.18633455)) — per-cell 3D nuclear crops shared with `iv` and `v`. Unzip into `iii_ML_classification/input/`.
   - `all_cells_ave_int_5_leiden.h5ad` — produced by running section `ii`'s UMAP + clustering notebooks.
   - `cell_by_transcript_gene_name_matrix2.csv` — already in `ii_whole_brain_cell_clustering/input/`.
 - **Notebooks, in order:**
@@ -173,7 +173,7 @@ Each block lists: **Goal · Environment · Inputs · Notebooks (in order) · Out
   - All other QuAC steps (attribution, counterfactual generation, evaluation) are fast — each typically completes within ~**20 minutes** for our datasets.
 
 ### v. QuAC feature quantitation
-*Folder: `v_QuAC feature quantitation/`*
+*Folder: `v_QuAC_feature_quantitation/`*
 
 - **Goal.** Population-level quantitative validation of QuAC-identified nuclear features (puncta intensity / count, radial distribution) across the full cell population.
 - **Environment.** Analysis env (`README.md` env #2).
@@ -204,7 +204,7 @@ Each block lists: **Goal · Environment · Inputs · Notebooks (in order) · Out
 
 - **Goal.** Reviewer-requested robustness checks: (a) Harmony parameter sensitivity; (b) PCA-vs-no-PCA + alternative clustering methods (Louvain / K-means / hierarchical / spectral); (c) random-seed Leiden reproducibility; (d) two-brain UMAP validation.
 - **Environment.** Analysis env (`README.md` env #2).
-- **Inputs.** Download `input.zip` from Zenodo (record [20429490](https://zenodo.org/records/20429490)) and unzip into `vii_Clustering_robustness_tests/input/`. Contents:
+- **Inputs.** Download `input.zip` from Zenodo ([10.5281/zenodo.18633455](https://doi.org/10.5281/zenodo.18633455)) and unzip into `vii_Clustering_robustness_tests/input/`. Contents:
   - `adata_18_nuclear_46_prot_brain1.h5ad`, `brain2_nuclear_int_18prot.h5ad`
   - `adata_plot_harmony_ave_int_2_brains.h5ad` (= published Harmony result)
   - `harmony_27_clusters_1st_brain.h5ad`
@@ -231,14 +231,14 @@ pip install -r requirements.txt
 
 # 2. Reproduce the published two-brain UMAP
 cd ii_whole_brain_cell_clustering
-# Download input.zip from https://zenodo.org/records/20429490 into this folder
+# Download input.zip from [10.5281/zenodo.18633455](https://doi.org/10.5281/zenodo.18633455) into this folder
 unzip input.zip
 jupyter lab Step_8_2_Nuclear_protein_intensity_UMAP_2_brains.ipynb
 # Run all cells. Outputs land in output/ and the notebook directory.
 
 # 3. Reproduce the clustering-robustness composite
 cd ../vii_Clustering_robustness_tests
-# Download input.zip from https://zenodo.org/records/20429490 into this folder
+# Download input.zip from [10.5281/zenodo.18633455](https://doi.org/10.5281/zenodo.18633455) into this folder
 unzip input.zip
 jupyter lab PCA_clustering_sensitivity_analysis_harmony_2.ipynb
 # Run all cells. Outputs land in output/.
