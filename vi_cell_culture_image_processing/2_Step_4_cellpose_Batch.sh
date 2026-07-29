@@ -43,7 +43,7 @@ do
         "$cellpose" \
               -i $file \
               -o $outputdir \
-              -m 20000 -d 70\
+              -m 20000 -d 70\                 # modify to your minimum nuclear voxel threshold (-m) and nuclear diameter (-d)
               --model_xy "$model_xy" \
               --model_yz "$model_yz"
 done
