@@ -93,13 +93,13 @@ section `i` from the raw cycleHCR volumes) is shared across sections `iii`,
 
 ## 2. Per-section walkthrough
 
-Each block lists: **Goal · Environment · Inputs · Notebooks (in order) · Outputs · Hardware / runtime.** "Environment" names refer to the three blocks in `README.md § Computational environments`.
+Each block lists: **Goal · Environment · Inputs · Notebooks (in order) · Outputs · Hardware / runtime.** "Environment" names refer to the five environments in `README.md § Computational environments`.
 
 ### i. Whole-brain image processing
 *Folder: `i_whole_brain_image_processing_pipeline/`*
 
 - **Goal.** Stitch, register, segment and quantify the whole-brain cycleHCR volume; produce per-cell nuclear-protein intensity tables and the per-cell 3D nuclear image dataset that feeds sections `iii`, `iv`, and `v`.
-- **Environment.** Stages run as Nextflow processes under SingularityCE (`README.md` env #1) plus three local Docker containers built from the Dockerfiles in this folder.
+- **Environment.** Stages run as Nextflow processes under SingularityCE (`README.md` env #1) plus local Docker containers built from the Dockerfiles in this folder — including the distributed Cellpose segmentation container (`README.md` env #2).
 - **Inputs.** Raw cycleHCR imaging volumes (off-Zenodo; provided by the authors on request).
 - **Driver scripts (in order):**
   1. `Step_1_loop.sh` — top-level loop driving the stitching / per-round preprocessing.
@@ -121,7 +121,7 @@ Each block lists: **Goal · Environment · Inputs · Notebooks (in order) · Out
 *Folder: `ii_whole_brain_cell_clustering/`*
 
 - **Goal.** Build the integrated nuclear-protein and RNA UMAPs across the two brain sections; define the 26/27/33 cluster solutions used throughout the paper. Generates the `adata_*_leiden.h5ad` snapshots consumed by section `iii`.
-- **Environment.** Analysis env (`omics-cyclehcr`, `README.md` env #2). Steps 8_3 and 9_3 are R scripts.
+- **Environment.** Analysis env (`omics-cyclehcr`, `README.md` env #3) for the notebooks; the two heatmap scripts (`Step_8_3`, `Step_9_3`) use the R env (`README.md` env #4).
 - **Inputs.** Download `input.zip` from Zenodo ([10.5281/zenodo.18633455](https://doi.org/10.5281/zenodo.18633455)) and unzip into `ii_whole_brain_cell_clustering/input/`. The folder contains:
   | File | Used by |
   |---|---|
@@ -148,7 +148,7 @@ Each block lists: **Goal · Environment · Inputs · Notebooks (in order) · Out
 *Folder: `iii_ML_classification/`*
 
 - **Goal.** (12) Classify per-cell cropped nuclear images by Monai/PyTorch into the protein-UMAP cluster labels; (13) measure how classification performance scales with the number of protein channels and rank channels by SHAP importance.
-- **Environment.** Analysis env (`README.md` env #2). GPU strongly recommended for `Step_12`.
+- **Environment.** Analysis env (`README.md` env #3). GPU strongly recommended for `Step_12`.
 - **Inputs.**
   - QuAC raw image dataset from Zenodo ([10.5281/zenodo.18633455](https://doi.org/10.5281/zenodo.18633455)) — per-cell 3D nuclear crops shared with `iv` and `v`. Unzip into `iii_ML_classification/input/`.
   - `all_cells_ave_int_5_leiden.h5ad` — produced by running section `ii`'s UMAP + clustering notebooks.
@@ -163,10 +163,10 @@ Each block lists: **Goal · Environment · Inputs · Notebooks (in order) · Out
 *Folder: `iv_QuAC_explainable_ML/`*
 
 - **Goal.** Discover cell-type-specific nuclear sub-structures via counterfactual generation.
-- **Environment.** QuAC env (`README.md` env #3): Linux x86_64, CUDA 11.8, dedicated GPU.
+- **Environment.** QuAC env (`README.md` env #5): Linux x86_64, CUDA 11.8, dedicated GPU.
 - **Inputs.** QuAC raw image dataset on Zenodo (shared with `iii` and `v`; per-cell 3D nuclear crops produced by section `i`).
 - **Procedure.**
-  1. Install QuAC per `README.md` env #3 (pinned to commit `ce13955b9ad999c8b4673cbfb0b51bce72a551ea`).
+  1. Install QuAC per `README.md` env #5 (pinned to commit `ce13955b9ad999c8b4673cbfb0b51bce72a551ea`).
   2. Run the QuAC pipeline using `QuAC_config_neuron_H3K4me1.yaml` (this folder) as the experiment config. See https://funkelab.github.io/quac/ for the full QuAC workflow.
 - **Hardware / runtime.**
   - **Training is the only computationally heavy step:** ~**9 hours for 4-class** models and ~**14 hours for 8-class** models at **40,000 iterations** on our hardware.
@@ -176,7 +176,7 @@ Each block lists: **Goal · Environment · Inputs · Notebooks (in order) · Out
 *Folder: `v_QuAC_feature_quantitation/`*
 
 - **Goal.** Population-level quantitative validation of QuAC-identified nuclear features (puncta intensity / count, radial distribution) across the full cell population.
-- **Environment.** Analysis env (`README.md` env #2).
+- **Environment.** Analysis env (`README.md` env #3).
 - **Inputs.** QuAC raw image dataset on Zenodo (shared with `iii` and `iv`; per-cell `.tiff` 3D nuclear crops).
 - **Notebooks** (each independent — order arbitrary):
   - `a_H3K4me1 dataset quantitation.ipynb` → `H3K4me1_distribution.pdf`
@@ -189,7 +189,7 @@ Each block lists: **Goal · Environment · Inputs · Notebooks (in order) · Out
 *Folder: `vi_cell_culture_image_processing/`*
 
 - **Goal.** Per-cell nuclear-protein intensity quantification on cultured neurons + astrocytes, ending in a per-cell UMAP and cell-type cluster comparison.
-- **Environment.** Analysis env (`README.md` env #2).
+- **Environment.** Analysis env (`README.md` env #3).
 - **Inputs.** Raw `.nd2` / `.tiff` cell-culture stacks and intermediate measurement CSVs acquired by the authors; not redistributed. This section is provided as a methodological reference; reproducing it end-to-end requires equivalent cell-culture imaging data.
 - **Notebooks, in order (when raw data is available):**
   1. `1_image_registration.ipynb` — register multi-timepoint cycleHCR `.nd2` stacks, write aligned `.tiff`.
@@ -202,8 +202,8 @@ Each block lists: **Goal · Environment · Inputs · Notebooks (in order) · Out
 ### vii. Clustering robustness tests
 *Folder: `vii_Clustering_robustness_tests/`*
 
-- **Goal.** Reviewer-requested robustness checks: (a) Harmony parameter sensitivity; (b) PCA-vs-no-PCA + alternative clustering methods (Louvain / K-means / hierarchical / spectral); (c) random-seed Leiden reproducibility; (d) two-brain UMAP validation.
-- **Environment.** Analysis env (`README.md` env #2).
+- **Goal.** Reviewer-requested robustness checks: (a) Harmony parameter sensitivity; (b) PCA-vs-no-PCA + alternative clustering methods (Louvain / K-means / hierarchical / spectral); (c) random-seed Leiden reproducibility.
+- **Environment.** Analysis env (`README.md` env #3).
 - **Inputs.** Download `input.zip` from Zenodo ([10.5281/zenodo.18633455](https://doi.org/10.5281/zenodo.18633455)) and unzip into `vii_Clustering_robustness_tests/input/`. Contents:
   - `adata_18_nuclear_46_prot_brain1.h5ad`, `brain2_nuclear_int_18prot.h5ad`
   - `adata_plot_harmony_ave_int_2_brains.h5ad` (= published Harmony result)
@@ -211,8 +211,7 @@ Each block lists: **Goal · Environment · Inputs · Notebooks (in order) · Out
   - `cell_by_transcript_gene_name_matrix{1,2}.csv`
 - **Notebooks (independent — order arbitrary):**
   - `Harmony_sensitivity_analysis.ipynb` — Harmony theta / lambda / sigma sweep.
-  - `Nuclear_protein_intensity_UMAP_2_brains_validation.ipynb` — independent 2-brain UMAP rebuild.
-  - `PCA_clustering_sensitivity_analysis_harmony_2.ipynb` — PCA-vs-scale + clustering-method sweep.
+  - `PCA_clustering_sensitivity_analysis_harmony.ipynb` — PCA-vs-scale + clustering-method sweep.
   - `Random_Clustering_reproducibility.ipynb` — Leiden random-seed reproducibility.
 - **Outputs.** Written to `vii_Clustering_robustness_tests/output/` — ARI/NMI matrices, composite figures, etc.
 - **Hardware / runtime.** CPU. Harmony sweeps in `Harmony_sensitivity_analysis.ipynb` dominate (~30 min × number of configs).
