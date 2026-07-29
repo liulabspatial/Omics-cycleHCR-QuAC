@@ -21,7 +21,7 @@ def main():
 
     data_numpy = tifffile.imread('DAPI.tif')  # change to your intensity image (DAPI channel) name
     print(data_numpy.shape)
-    data_zarr = numpy_array_to_zarr('fix_scaled.zarr', data_numpy, chunks=(106, 51, 512))  # intermediate file, no need to supply
+    data_zarr = numpy_array_to_zarr('fix_scaled.zarr', data_numpy, chunks=(106, 512, 512))  # intermediate file, no need to supply
     # mask_ar = tifffile.imread('mask.tif')  # Optional. A binary mask restricting segmentation to tissue area
 
     model_kwargs = {'gpu':True}
@@ -45,7 +45,7 @@ def main():
      #     boxes: list of bounding boxes around all labels (very useful for navigating big data)
     segments, boxes = distributed_eval(
          input_zarr=data_zarr,
-         blocksize=(106, 70, 70),  # (106, 512, 512)
+         blocksize=(106, 512, 512),  # (106, 512, 512)
          write_path='output.zarr',
          # mask = mask_ar,                   # comment out if don't supply a mask image
          model_kwargs=model_kwargs,
