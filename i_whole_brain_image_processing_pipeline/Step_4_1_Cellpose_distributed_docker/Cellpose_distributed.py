@@ -1,13 +1,9 @@
 def main():
-    print("Hello from inside the Cellpose Docker container!")
-
     import numpy as np
     from cellpose import models, core, io, plot
     import zarr
     import tifffile
 
-
-    model = models.CellposeModel(gpu=True)
 
     use_GPU = core.use_gpu()
     yn = ['NO', 'YES']
