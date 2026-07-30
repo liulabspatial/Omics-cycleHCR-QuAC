@@ -1,9 +1,10 @@
 # Distributed Cellpose (Docker)
 
 Whole-brain 3D nuclear segmentation with Cellpose, parallelized over image
-blocks with `cellpose.contrib.distributed_segmentation` (Dask). The Docker
-image bundles the exact pinned environment so it runs on any machine with a
-CUDA GPU.
+blocks with `cellpose.contrib.distributed_segmentation` (Dask) 
+[https://cellpose.readthedocs.io/en/latest/distributed.html](https://cellpose.readthedocs.io/en/latest/distributed.html). 
+The Docker image bundles the exact pinned environment so it runs on any 
+machine with a CUDA GPU.
 
 ## Environment (pinned in the Dockerfile)
 
