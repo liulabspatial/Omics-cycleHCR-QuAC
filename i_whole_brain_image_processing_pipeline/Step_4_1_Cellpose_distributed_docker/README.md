@@ -2,7 +2,7 @@
 
 Whole-brain 3D nuclear segmentation with Cellpose, parallelized over image
 blocks with `cellpose.contrib.distributed_segmentation` (Dask).
-See documentation page for usage 
+See documentation page for usage:
 [https://cellpose.readthedocs.io/en/latest/distributed.html](https://cellpose.readthedocs.io/en/latest/distributed.html). 
 The Docker image bundles the exact pinned environment so it runs on any 
 machine with a CUDA GPU.
