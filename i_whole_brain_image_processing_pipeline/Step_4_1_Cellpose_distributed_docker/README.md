@@ -49,7 +49,7 @@ Input filenames and all segmentation parameters are set at the top / body of
   from `mask.tif`. If you don't have one, comment out **both** the
   `mask_ar = tifffile.imread('mask.tif')` line and the `mask=mask_ar` argument in
   `distributed_eval(...)`, otherwise the run stops at `/data/mask.tif`.
-- Key parameters: `diameter`, `blocksize`, `do_3D`, `model_type`, and the Dask
+- Key parameters: `blocksize`, `do_3D`, and the Dask
   `cluster_kwargs` (`n_workers`, `ncpus`, `memory_limit`) — tune to your data and
   hardware.
 
