@@ -128,5 +128,5 @@ and scripts that produce it — including inputs, outputs, and expected
 hardware/runtime — see [`REPRODUCING.md`](REPRODUCING.md) at the repository
 root.
 
-## License
+#### License
 This repository is released under the BSD 3-Clause License (see LICENSE).
