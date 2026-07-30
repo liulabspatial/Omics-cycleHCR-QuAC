@@ -81,7 +81,7 @@ section `i` from the raw cycleHCR volumes) is shared across sections `iii`,
 
 | Stage | Reproducible from clone + Zenodo? | Why / what's needed |
 |---|---|---|
-| `i` image processing | **No** — needs raw cycleHCR microscopy stacks | Multi-TB raw data is not on Zenodo. The pipeline scripts (`Step_1_loop.sh` … `Step_5_spot_assignment.sh`, plus the Step_4_1 / Step_6 / Step_7 Dockerfiles) and the Nextflow workflow from `CycleHCR-Pipeline` are provided for reference; to re-run, follow `README.md` env #1 and supply your own raw stacks. |
+| `i` image processing | **No** — needs raw cycleHCR microscopy stacks | Multi-TB raw data is not on Zenodo. The pipeline scripts (`Step_1_loop.sh` … `Step_5_spot_assignment.sh`, plus the Step_4_1 / Step_6 Dockerfiles) and the Nextflow workflow from `CycleHCR-Pipeline` are provided for reference; to re-run, follow `README.md` env #1 and supply your own raw stacks. |
 | `ii` cell clustering | **Yes** | `input.zip` on Zenodo → `ii_whole_brain_cell_clustering/input/`. |
 | `iii` ML classification | **Yes** | QuAC raw images on Zenodo → `iii_ML_classification/input/`; `all_cells_ave_int_5_leiden.h5ad` is produced by running the `ii` UMAP/clustering notebooks. |
 | `iv` QuAC | **Yes** (training is GPU-bound, see runtime below) | QuAC raw images on Zenodo + `iv_QuAC_explainable_ML/QuAC_config_neuron_H3K4me1.yaml`. |
@@ -99,7 +99,7 @@ Each block lists: **Goal · Environment · Inputs · Notebooks (in order) · Out
 *Folder: `i_whole_brain_image_processing_pipeline/`*
 
 - **Goal.** Stitch, register, segment and quantify the whole-brain cycleHCR volume; produce per-cell nuclear-protein intensity tables and the per-cell 3D nuclear image dataset that feeds sections `iii`, `iv`, and `v`.
-- **Environment.** Stitching / registration / spot-calling run as Nextflow processes under SingularityCE (`README.md` env #1). Nuclear segmentation (Step 4) and 3D nucleus cropping (Step 6) run in the Docker containers built from this folder (the distributed Cellpose container is `README.md` env #2). Step 7 and Step 12 run as **standalone Python scripts** in the analysis environment (`README.md` env #3, `requirements.txt`) — no Docker needed; edit the `USER CONFIG` block at the top of each script before running.
+- **Environment.** Stitching / registration / spot-calling run as Nextflow processes under SingularityCE (`README.md` env #1). Nuclear segmentation (Step 4) and 3D nucleus cropping (Step 6) run in the Docker containers built from this folder (the distributed Cellpose container is `README.md` env #2). Step 7 and Step 12 run in the analysis environment (`README.md` env #3, `requirements.txt`); edit the `USER CONFIG` block at the top of each script before running.
 - **Inputs.** Raw cycleHCR imaging volumes (off-Zenodo; provided by the authors on request).
 - **Driver scripts (in order):**
   1. `Step_1_loop.sh` — top-level loop driving the stitching / per-round preprocessing.
@@ -110,8 +110,8 @@ Each block lists: **Goal · Environment · Inputs · Notebooks (in order) · Out
   6. `Step_4_3_dilate_mask_for_RNA_spot_assignment.ipynb` — mask dilation for spot-to-cell assignment.
   7. `Step_5_spot_assignment.sh` — assign RNA spots to nuclei using the dilated mask.
   8. `Step_6_Nuclear_3D_image_cropping_docker/` — per-cell 3D crops. Run inside the Docker built from this folder's `Dockerfile`; driver shell scripts `crop_open.sh`, `crop_s0.sh`, calling `scripts/bigstream_segment_s0_parallel.py` and `scripts/fix_segment_s0.py`.
-  9. `Step_7_and_12_nuclei_measure_and_write_ML_images/Step_7_measure_nucleus_intensity.py` — per-cell nuclear-protein intensity measurements. Standalone Python script (analysis env, no Docker): edit the `USER CONFIG` block, then `python Step_7_measure_nucleus_intensity.py`.
-  10. `Step_7_and_12_nuclei_measure_and_write_ML_images/Step_12_write_ML_image_dataset.py` — packages per-cell crops into the **QuAC raw image dataset** that becomes the Zenodo deposit consumed by `iii`, `iv`, `v`. Standalone Python script (analysis env, no Docker); requires the pre-assigned cell-ID list from `ii` Step_11. Edit the `USER CONFIG` block, then `python Step_12_write_ML_image_dataset.py`.
+  9. `Step_7_measure_nucleus_intensity.py` — per-cell nuclear-protein intensity measurements. Edit the `USER CONFIG` block, then `python Step_7_measure_nucleus_intensity.py`.
+  10. `Step_12_write_ML_image_dataset.py` — packages per-cell crops into the **QuAC raw image dataset** that becomes the Zenodo deposit consumed by `iii`, `iv`, `v`. Requires the pre-assigned cell-ID list from `ii` Step_11. Edit the `USER CONFIG` block, then `python Step_12_write_ML_image_dataset.py`.
 - **Outputs that downstream sections consume (via Zenodo, not direct file passing):**
   - Per-cell intensity h5ads + `center_of_mass_results.csv` → bundled into `input.zip` for `ii`.
   - Per-cell 3D nuclear image dataset → uploaded as the QuAC raw images on Zenodo (input for `iii`, `iv`, `v`).
