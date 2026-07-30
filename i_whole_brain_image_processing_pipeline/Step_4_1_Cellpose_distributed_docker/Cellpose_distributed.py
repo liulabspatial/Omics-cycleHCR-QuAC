@@ -1,5 +1,5 @@
 def main():
-    print("Hello from inside the Miniconda Docker container!")
+    print("Hello from inside the Cellpose Docker container!")
 
     import numpy as np
     from cellpose import models, core, io, plot
