@@ -69,7 +69,7 @@ writing the label outputs (`output.zarr`, `segment_output.tiff`) back there.
 A CUDA 12.6-capable GPU is used for inference; `dask-jobqueue` can distribute
 segmentation across cluster nodes.
 
-### 3. Analysis environment — Python (this repository, folders i–iii, v–vi)
+### 3. Analysis environment — Python (this repository, folders i–iii, v–vii)
 
 Cell clustering, ML classification, and feature quantification.
 
