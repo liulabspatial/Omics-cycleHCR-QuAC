@@ -17,6 +17,6 @@ Edit the USER CONFIG block at the top of each script, then run: <br/>
 
 ```
 python Step_7_measure_nucleus_intensity.py
-python Step_12_write_ML_image_dataset.py
+python Step_12_1_write_ML_image_dataset.py
 ```
  
