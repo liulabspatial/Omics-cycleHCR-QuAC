@@ -44,7 +44,7 @@ do
         "$cellpose" \
               -i $file \
               -o $outputdir \
-              -m 20000 -d 70\                 
+              -m 20000 -d 70\
               --model_xy "$model_xy" \
               --model_yz "$model_yz"
 done
