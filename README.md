@@ -127,3 +127,6 @@ For a step-by-step walkthrough mapping each analysis stage to the notebooks
 and scripts that produce it — including inputs, outputs, and expected
 hardware/runtime — see [`REPRODUCING.md`](REPRODUCING.md) at the repository
 root.
+
+## License
+This repository is released under the BSD 3-Clause License (see LICENSE).
