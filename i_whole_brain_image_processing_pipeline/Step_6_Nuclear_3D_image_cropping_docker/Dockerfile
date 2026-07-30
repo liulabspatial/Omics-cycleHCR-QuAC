@@ -1,4 +1,4 @@
-FROM condaforge/mambaforge as builder
+FROM condaforge/mambaforge
 
 # create conda environment, python 3.11+ is needed for new bigstream
 # install bigstream by pip
@@ -16,10 +16,9 @@ RUN apt-get update -y \
 RUN mamba create -n myenv -c conda-forge python=3.11 \
     && mamba run -n myenv pip install bigstream==1.4.1 \
     && mamba run -n myenv pip install pandas \
-
     && mamba clean --tarballs -y \
-    && mkdir -p /opt/conda/env/myenv/etc/conda/activate.d \
-    && echo "export TMPDIR=/tmp" > /opt/conda/env/myenv/etc/conda/activate.d/env_vars.sh
+    && mkdir -p /opt/conda/envs/myenv/etc/conda/activate.d \
+    && echo "export TMPDIR=/tmp" > /opt/conda/envs/myenv/etc/conda/activate.d/env_vars.sh
 
 COPY scripts /app
 
@@ -32,4 +31,5 @@ RUN echo "#!/bin/bash" >> /entrypoint.sh \
     && echo 'python /app/${SCRIPT_NAME}.py "$@"' >> /entrypoint.sh \
     && chmod +x /entrypoint.sh
 
-
+# dispatch: `run <image/sif> <script_name> <args>` -> python /app/<script_name>.py <args>
+ENTRYPOINT ["/entrypoint.sh"]
