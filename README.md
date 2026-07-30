@@ -43,7 +43,7 @@ https://github.com/liulabspatial/CycleHCR-Pipeline
 The Singularity images used by the workflow are defined in the Nextflow
 process modules and are pulled automatically on first run. Container
 definitions are based on JaneliaSciComp/containers.<br/>
-nuclear segmentation / measurement steps run in the Dockerfiles under folder i
+nuclear segmentation and cropping steps run in the Dockerfiles under folder i
 
 ### 2. Distributed nuclear segmentation — Cellpose (Docker, folder i)
 
