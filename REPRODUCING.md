@@ -111,7 +111,7 @@ Each block lists: **Goal · Environment · Inputs · Notebooks (in order) · Out
   7. `Step_5_spot_assignment.sh` — assign RNA spots to nuclei using the dilated mask.
   8. `Step_6_Nuclear_3D_image_cropping_docker/` — per-cell 3D crops. Run inside the Docker built from this folder's `Dockerfile`; driver shell scripts `crop_open.sh`, `crop_s0.sh`, calling `scripts/bigstream_segment_s0_parallel.py` and `scripts/fix_segment_s0.py`.
   9. `Step_7_measure_nucleus_intensity.py` — per-cell nuclear-protein intensity measurements. Edit the `USER CONFIG` block, then `python Step_7_measure_nucleus_intensity.py`.
-  10. `Step_12_write_ML_image_dataset.py` — packages per-cell crops into the **QuAC raw image dataset** that becomes the Zenodo deposit consumed by `iii`, `iv`, `v`. Requires the pre-assigned cell-ID list from `ii` Step_11. Edit the `USER CONFIG` block, then `python Step_12_write_ML_image_dataset.py`.
+  10. `Step_12_1_write_ML_image_dataset.py` — packages per-cell crops into the **QuAC raw image dataset** that becomes the Zenodo deposit consumed by `iii`, `iv`, `v`. Requires the pre-assigned cell-ID list from `ii` Step_11. Edit the `USER CONFIG` block, then `python Step_12_1_write_ML_image_dataset.py`.
 - **Outputs that downstream sections consume (via Zenodo, not direct file passing):**
   - Per-cell intensity h5ads + `center_of_mass_results.csv` → bundled into `input.zip` for `ii`.
   - Per-cell 3D nuclear image dataset → uploaded as the QuAC raw images on Zenodo (input for `iii`, `iv`, `v`).
@@ -154,7 +154,7 @@ Each block lists: **Goal · Environment · Inputs · Notebooks (in order) · Out
   - `all_cells_ave_int_5_leiden.h5ad` — produced by running section `ii`'s UMAP + clustering notebooks.
   - `cell_by_transcript_gene_name_matrix2.csv` — already in `ii_whole_brain_cell_clustering/input/`.
 - **Notebooks, in order:**
-  1. `Step_12_Monai_classification.ipynb` — train + evaluate Monai classifier on the per-cell crops.
+  1. `Step_12_2_Monai_classification.ipynb` — train + evaluate Monai classifier on the per-cell crops. Two training codes are available for train/val/test dataset splits and train/val splits only.
   2. `Step_13_ML_number_of_proteins_and_importance.ipynb` — sweep number of channels, compute summary stats, SHAP-rank channels.
 - **Outputs.** `all_results_detailed.csv`, `summary_statistics.csv`, `classification_Num_proteins.pdf`, `shap_bar.eps`, `shap_violin_cluster_{i}.pdf`, `umap_leiden_rasterized.pdf`, `spatial_clusters.pdf`.
 - **Hardware / runtime.** GPU (CUDA) for training; minutes to a couple of hours depending on the channel sweep.
