@@ -1,13 +1,9 @@
 def main():
-    print("Hello from inside the Miniconda Docker container!")
-
     import numpy as np
     from cellpose import models, core, io, plot
     import zarr
     import tifffile
 
-
-    model = models.CellposeModel(gpu=True)
 
     use_GPU = core.use_gpu()
     yn = ['NO', 'YES']
@@ -19,16 +15,14 @@ def main():
     from cellpose.contrib.distributed_segmentation import numpy_array_to_zarr
 
 
-    data_numpy = tifffile.imread('fix_b1_t3_c3_s2_z4_412.tif')
+    data_numpy = tifffile.imread('DAPI.tif')  # change to your intensity image (DAPI channel) name
     print(data_numpy.shape)
-    data_zarr = numpy_array_to_zarr('fix_scaled.zarr', data_numpy, chunks=(106, 512, 512))
-    mask_ar = tifffile.imread('t3_mask_scaled.tif')
+    data_zarr = numpy_array_to_zarr('fix_scaled.zarr', data_numpy, chunks=(106, 512, 512))  # intermediate file, no need to supply
+    # mask_ar = tifffile.imread('mask.tif')  # Optional. A binary mask restricting segmentation to tissue area
 
-    model_kwargs = {'gpu':True, 'model_type': 'cyto3'} #'pretrained_model':'wholebrain_models/xy_epoch8000'} #, 'pretrained_model_ortho':'wholebrain_models/yz_7ep5000'}
+    model_kwargs = {'gpu':True}
     eval_kwargs = {
                    'z_axis':0,
-                   'channels':1, #[0,0],
-                   'diameter':18,
                    'do_3D':True,
                    # 'stitch_threshold': 1
     }
@@ -47,9 +41,9 @@ def main():
      #     boxes: list of bounding boxes around all labels (very useful for navigating big data)
     segments, boxes = distributed_eval(
          input_zarr=data_zarr,
-         blocksize=(106, 512, 512),
+         blocksize=(106, 512, 512),  # (106, 512, 512)
          write_path='output.zarr',
-         mask = mask_ar,
+         # mask = mask_ar,                   # comment out if don't supply a mask image
          model_kwargs=model_kwargs,
          eval_kwargs=eval_kwargs,
          cluster_kwargs=cluster_kwargs,

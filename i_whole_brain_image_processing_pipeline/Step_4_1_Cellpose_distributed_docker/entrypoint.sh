@@ -4,8 +4,8 @@ set -e
 # Initialize conda
 source /opt/conda/etc/profile.d/conda.sh
 
-# Activate your environment
+# Activate the cellpose environment
 conda activate cellpose
 
-# Run the command passed to the container
+# Run the command passed to the container (default: python Cellpose_distributed.py)
 exec "$@"

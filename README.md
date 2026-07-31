@@ -22,7 +22,7 @@ cycleHCR image analysis pipeline: [https://github.com/liulabspatial/CycleHCR-Pip
 
 ## Computational environments
 
-This pipeline spans three coordinated environments matched to the
+This pipeline spans five coordinated environments matched to the
 computational requirements of each stage. Each notebook header indicates
 which environment it requires.
 
@@ -36,16 +36,40 @@ through SingularityCE. We used:
 - Nextflow version 25.10.4.11173
 - CycleHCR-Pipeline commit 8d3e1b6d097ba83af300cd4b095b2093011f78af
 
-Setup instructions and the pipeline scripts (Step_1 through Step_5) are
+Setup instructions and the pipeline scripts are
 in the CycleHCR-Pipeline repository:
 https://github.com/liulabspatial/CycleHCR-Pipeline
 
 The Singularity images used by the workflow are defined in the Nextflow
 process modules and are pulled automatically on first run. Container
 definitions are based on JaneliaSciComp/containers.<br/>
-nuclear segmentation / measurement steps run in the Dockerfiles under folder i
+nuclear segmentation and cropping steps run in the Dockerfiles under folder i
 
-### 2. Analysis environment — Python (this repository, folders i–iii, v–vii)
+### 2. Distributed nuclear segmentation — Cellpose (Docker, folder i)
+
+Whole-brain nuclear segmentation is run with a distributed Cellpose container
+(`i_whole_brain_image_processing_pipeline/Step_4_1_Cellpose_distributed_docker/`).
+The image builds from `condaforge/miniforge3` and pins:
+
+- Python 3.10
+- Cellpose (MouseLand) commit `15eb3c6`
+- PyTorch 2.7.1 / torchvision 0.22.1 (CUDA 12.6 build)
+- zarr 2.18.3, dask-image 2026.5.0
+- dask 2026.6.0, dask-jobqueue 0.9.0
+
+Build and run (see the folder's `README.md` for full details):
+
+    cd i_whole_brain_image_processing_pipeline/Step_4_1_Cellpose_distributed_docker
+    docker build -t cellpose-distributed .
+    docker run --gpus all -v ${PWD}/data:/data -w /data cellpose-distributed
+
+The container activates the pinned `cellpose` environment and runs
+`Cellpose_distributed.py`, reading its input from the mounted `data/` folder and
+writing the label outputs (`output.zarr`, `segment_output.tiff`) back there.
+A CUDA 12.6-capable GPU is used for inference; `dask-jobqueue` can distribute
+segmentation across cluster nodes.
+
+### 3. Analysis environment — Python (this repository, folders i–iii, v–vii)
 
 Cell clustering, ML classification, and feature quantification.
 
@@ -56,7 +80,24 @@ Cell clustering, ML classification, and feature quantification.
 A version-locked `requirements.txt` is provided in the root of this
 repository.
 
-### 3. QuAC — Python + PyTorch/CUDA (folder iv)
+### 4. R — cluster marker heatmaps (folder ii)
+
+The nuclear-protein and RNA cluster heatmaps
+(`ii_whole_brain_cell_clustering/Step_8_3_heatmap_nuclear_protein.R` and
+`Step_9_3_heatmap_RNA.R`) are rendered in R:
+
+- R 4.3.3
+- pheatmap 1.0.13
+- RColorBrewer 1.1.3
+
+Install the two CRAN packages:
+
+    install.packages(c("pheatmap", "RColorBrewer"))
+
+Run each script from the `ii_whole_brain_cell_clustering/` folder so the
+`input/…` paths resolve, e.g. `Rscript Step_8_3_heatmap_nuclear_protein.R`.
+
+### 5. QuAC — Python + PyTorch/CUDA (folder iv)
 
 Explainable-ML analysis with QuAC. Requires Linux x86_64 with CUDA 11.8.
 
@@ -72,7 +113,7 @@ generation.
 ## Data availability
 
 All intermediate datasets required to reproduce the analyses are deposited on
-Zenodo: [10.5281/zenodo.18633455](https://doi.org/10.5281/zenodo.18633455)
+Zenodo (DOI 10.5281/zenodo.18633455): https://doi.org/10.5281/zenodo.18633455
 
 Each downstream folder (`ii_whole_brain_cell_clustering/`,
 `vii_Clustering_robustness_tests/`, etc.) has its own short `README.md`
@@ -86,3 +127,6 @@ For a step-by-step walkthrough mapping each analysis stage to the notebooks
 and scripts that produce it — including inputs, outputs, and expected
 hardware/runtime — see [`REPRODUCING.md`](REPRODUCING.md) at the repository
 root.
+
+#### License
+This repository is released under the BSD 3-Clause License (see LICENSE).

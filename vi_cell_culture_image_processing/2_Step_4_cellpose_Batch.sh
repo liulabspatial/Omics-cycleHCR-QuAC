@@ -3,7 +3,8 @@
 
 # This customized code is for processing multiple images from different fields of view collected on cell cultures.
 
-
+# Modify parameters at the end of the code to your minimum nuclear voxel threshold (-m), nuclear diameter (-d) 
+# and trained models (--model_xy, --model_yz)
 
 # === Configure these paths for your environment (or set as environment variables) ===
 inputpath="${INPUT_PATH:-/path/to/time1_z_rescaled_DAPI_imgs/}"   # <- change to your path

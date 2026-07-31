@@ -7,14 +7,20 @@ docker build -t bigstream .
 
 ----------------Run in Docker---------------
 
-docker run -it bigstream
+# The container dispatches by script name:
+#   docker run bigstream <script_name> <args>
+# runs  python /app/<script_name>.py <args>
+# (see crop_s0.sh for the full argument list, e.g. -f -m -td -seg -idx -o)
 
+docker run bigstream bigstream_segment_s0_parallel <args>
+
+# Or open an interactive shell for testing:
+
+docker run -it --entrypoint /bin/bash bigstream
 conda activate myenv
-
-cd scripts/
-
+cd /app
 # run image cropping script by
-python bigstream_segment_s0_parallel.py
+python bigstream_segment_s0_parallel.py <args>
 
 
 
