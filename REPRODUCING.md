@@ -216,16 +216,18 @@ Each block lists: **Goal · Environment · Inputs · Notebooks (in order) · Out
 - **Outputs.** Written to `vii_Clustering_robustness_tests/output/` — ARI/NMI matrices, composite figures, etc.
 - **Hardware / runtime.** CPU. Harmony sweeps in `Harmony_sensitivity_analysis.ipynb` dominate (~30 min × number of configs).
 
+---
+
 
 ## 3. Environment installation time
 
 Times are approximate and depend on system configuration, network speed, and dependency resolution.
 
 **Environment (step/folder):**	estimated time
-**Nextflow + Singularity (i):**	>30 min; may take 1–2 hours if not preinstalled
-**Docker + Cellpose + CUDA 12.6 (i):** >30 min;	GPU/driver/image build dependent
-**Python 3.11 + requirements.txt (i–iii, v–vii):** 15–30 min; May vary with dependency resolution
-**R 4.3.3 + CRAN packages (ii):**	<15 min
-**QuAC / PyTorch / CUDA 11.8 (iv):**	20 min – 1 hour; may vary with system configuration and GPU/CUDA setup
+- **Nextflow + Singularity (i):**	>30 min; may take 1–2 hours if not preinstalled
+- **Docker + Cellpose + CUDA 12.6 (i):** >30 min;	GPU/driver/image build dependent
+- **Python 3.11 + requirements.txt (i–iii, v–vii):** 15–30 min; May vary with dependency resolution
+- **R 4.3.3 + CRAN packages (ii):**	<15 min
+- **QuAC / PyTorch / CUDA 11.8 (iv):**	20 min – 1 hour; may vary with system configuration and GPU/CUDA setup
 
 ---
