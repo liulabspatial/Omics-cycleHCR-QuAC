@@ -9,7 +9,7 @@ monai==1.4.0
 napari==0.6.2
 nd2==0.10.1
 numpy==1.26.4
-opencv-python==4.10.0
+opencv-python==4.10.0.84
 pandas==2.0.3
 scanpy==1.11.4
 scikit-image==0.20.0
